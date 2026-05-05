@@ -46,18 +46,6 @@ The business required:
 ---
 
 ## 🏗️ Architecture
-
-```
-Developer → GitHub → GitHub Actions → Azure App Service (Staging → Production)
-                                     ↓
-                                  Azure DNS
-                                     ↓
-                          www.auemeribetech.com.ng (HTTPS)
-                                     ↓
-                                   End User
-```
-
-
 ![Architecture](docs/architecture.png)
 
 ---
