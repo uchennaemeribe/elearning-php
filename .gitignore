@@ -1,0 +1,23 @@
+# Node / general
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Build artifacts
+*.zip
+
+# Azure / deployment
+publish-profile.xml
+prod-profile.xml
+staging-profile.xml
