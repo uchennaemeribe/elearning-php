@@ -1,0 +1,63 @@
+digraph CICD_Azure_PHP {
+    rankdir=TB;
+    fontname="Arial";
+    bgcolor="white";
+
+    node [shape=rectangle, style="rounded,filled", fontname="Arial", fontsize=10];
+
+    # Developer
+    dev [label="👨‍💻 Developer\n(Code Changes)", shape=oval, fillcolor=lightgreen];
+
+    # GitHub Layer
+    github [label="GitHub Repository\n(PHP Source Code)", fillcolor=lightblue];
+    actions [label="GitHub Actions\n(CI/CD Pipeline)", fillcolor=lightblue];
+    build [label="Build Stage\n(Checkout + Package)", fillcolor=lightyellow];
+    artifact [label="Artifact\n(app.zip)", fillcolor=lightgrey];
+
+    # Azure Layer
+    staging [label="App Service\nStaging Slot", fillcolor=orange];
+    production [label="App Service\nProduction Slot", fillcolor=orange];
+    dns [label="Azure DNS Zone\nauemeribetech.com.ng", fillcolor=lightcyan];
+    domain [label="Custom Domain\nwww.auemeribetech.com.ng", fillcolor=lightcyan];
+
+    # User
+    user [label="🌍 End User\n(Browser)", shape=oval, fillcolor=lightgreen];
+
+    # Flow
+    dev -> github [label="git push"];
+    github -> actions [label="Trigger Workflow"];
+    actions -> build [label="Build Job"];
+    build -> artifact [label="Package"];
+    artifact -> staging [label="Deploy"];
+    staging -> production [label="Slot Swap\n(Zero Downtime)"];
+    production -> dns [label="Bind"];
+    dns -> domain [label="CNAME + TXT"];
+    domain -> user [label="HTTPS"];
+
+    # Spacing
+    nodesep=0.6;
+    ranksep=0.9;
+
+    # Azure grouping
+    subgraph cluster_azure {
+        label="Microsoft Azure";
+        style="dashed,rounded";
+        color=gray;
+
+        staging;
+        production;
+        dns;
+    }
+
+    # GitHub grouping
+    subgraph cluster_github {
+        label="GitHub CI/CD";
+        style="dashed,rounded";
+        color=gray;
+
+        github;
+        actions;
+        build;
+        artifact;
+    }
+}
