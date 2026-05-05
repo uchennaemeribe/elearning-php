@@ -57,7 +57,8 @@ Developer → GitHub → GitHub Actions → Azure App Service (Staging → Produ
                                    End User
 ```
 
-📄 ![Architecture](docs/architecture-diagram.png)
+
+![Architecture](docs/architecture.png)
 
 ---
 
