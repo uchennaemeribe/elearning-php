@@ -1,12 +1,7 @@
-Here’s your full professional, copy-ready README.md — clean, structured, and portfolio-grade. You can paste this directly into your README.md.
-
-⸻
-
 🚀 End-to-End CI/CD Pipeline for PHP App on Azure
 
 (Azure CLI + Azure DNS + GitHub Actions + Zero-Downtime Deployment)
 
-⸻
 
 📌 Project Overview
 
@@ -19,7 +14,6 @@ This project demonstrates a production-ready CI/CD pipeline for deploying a PHP 
 
 The system enables fully automated deployments, custom domain integration, and secure HTTPS access with zero downtime.
 
-⸻
 
 🧭 Real-World Scenario
 
@@ -38,7 +32,6 @@ The business required:
 
 👉 This project solves these problems using modern DevOps practices.
 
-⸻
 
 🎯 Objectives
 
@@ -48,13 +41,9 @@ The business required:
 * Enable HTTPS with managed SSL
 * Achieve zero-downtime deployments using staging slots
 
-⸻
 
 🏗️ Architecture
-
-<p align="center">
-  <img src="docs/architecture.png" width="700"/>
-</p>
+![Architecture](docs/architecture-diagram.png)
 
 🔁 Flow Overview
 
@@ -62,7 +51,6 @@ Developer → GitHub Repository → GitHub Actions (CI/CD) → Build & Package �
 Deploy to Staging → Slot Swap (Zero Downtime) → Production →
 Azure DNS → Custom Domain → End User (HTTPS)
 
-⸻
 
 🧰 Technologies Used
 
@@ -73,7 +61,6 @@ Azure DNS → Custom Domain → End User (HTTPS)
 * PHP
 * Git & GitHub
 
-⸻
 
 📁 Project Structure
 
@@ -102,7 +89,6 @@ elearning-php-ci-cd/
 ├── .gitignore
 └── README.md
 
-⸻
 
 ⚙️ CI/CD Workflow (Enterprise Pipeline)
 
@@ -166,7 +152,6 @@ jobs:
           --slot staging \
           --target-slot production
 
-⸻
 
 🚀 Azure CLI Setup
 
@@ -197,7 +182,6 @@ az webapp deployment slot create \
   --resource-group elearning-rg \
   --slot staging
 
-⸻
 
 🌐 Azure DNS Configuration
 
@@ -230,7 +214,7 @@ az webapp config hostname add \
   --resource-group elearning-rg \
   --hostname www.auemeribetech.com.ng
 
-⸻
+
 
 🔐 GitHub Secrets
 
@@ -239,7 +223,7 @@ gh secret set AZURE_WEBAPP_PUBLISH_PROFILE_PROD < prod-profile.xml
 gh secret set AZURE_WEBAPP_PUBLISH_PROFILE_STAGING < staging-profile.xml
 gh secret set AZURE_CREDENTIALS
 
-⸻
+
 
 🌐 Live Application
 
@@ -249,7 +233,7 @@ gh secret set AZURE_CREDENTIALS
 ✔ HTTPS enabled
 ✔ Automated deployment
 
-⸻
+
 
 ❌ Common Issues & Fixes
 
@@ -259,13 +243,11 @@ Cannot add domain	Upgrade App Service Plan
 HTTPS not working	Bind SSL certificate
 CI/CD not triggering	Check GitHub Actions logs
 
-⸻
 
 🧹 Cleanup
 
 az group delete --name elearning-rg --yes --no-wait
 
-⸻
 
 🧠 Key DevOps Learnings
 
@@ -275,7 +257,6 @@ az group delete --name elearning-rg --yes --no-wait
 * Deployment slots enable zero downtime
 * Automation is essential for scalability
 
-⸻
 
 🏁 Final Outcome
 
@@ -284,14 +265,12 @@ az group delete --name elearning-rg --yes --no-wait
 ✔ Secure HTTPS
 ✔ Production-ready architecture
 
-⸻
 
 👤 Author
 
 Anthony Uchenna Emeribe
 Cloud / DevOps Engineer
 
-⸻
 
 ⭐ Support
 
@@ -300,7 +279,6 @@ If you found this helpful, consider giving it a
 n GitHub.
 :::
 
-⸻
 
 If you want next, I can help you:
 
