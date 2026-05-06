@@ -1,62 +1,46 @@
 digraph CICD_Azure_PHP {
-    rankdir=LR;
+    rankdir=TB;
     fontname="Arial";
 
-    node [shape=rectangle, style=filled, fontname="Arial"];
+    node [shape=rectangle, style="rounded,filled", fontname="Arial"];
 
-    # Developer
-    dev [label="👨‍💻 Developer\n(Code Changes)", shape=oval, color=lightgreen];
+    dev [label="Developer\n(Code Changes)", shape=oval, fillcolor=lightgreen];
 
-    # GitHub
-    github [label="GitHub Repository\n(PHP Source Code)", color=lightblue];
-    actions [label="GitHub Actions\n(CI/CD Pipeline)", color=lightblue];
+    github [label="GitHub Repository\n(PHP Source Code)", fillcolor=lightblue];
+    actions [label="GitHub Actions\n(CI/CD Pipeline)", fillcolor=lightblue];
 
-    # Build Stage
-    build [label="Build Stage\n(Checkout + Package)", color=lightyellow];
+    build [label="Build Stage\n(Checkout + Package)", fillcolor=lightyellow];
+    artifact [label="Artifact\n(app.zip)", fillcolor=lightgrey];
 
-    # Artifact
-    artifact [label="Artifact (app.zip)", color=lightgrey];
+    staging [label="App Service\nStaging Slot", fillcolor=orange];
+    production [label="App Service\nProduction Slot", fillcolor=orange];
 
-    # Azure App Service
-    staging [label="Azure App Service\nStaging Slot", color=orange];
-    production [label="Azure App Service\nProduction Slot", color=orange];
+    dns [label="Azure DNS Zone\nauemeribetech.com.ng", fillcolor=lightcyan];
+    domain [label="Custom Domain\nwww.auemeribetech.com.ng", fillcolor=lightcyan];
 
-    # Azure DNS
-    dns [label="Azure DNS Zone\nauemeribetech.com.ng", color=lightcyan];
+    user [label="End User\n(Browser)", shape=oval, fillcolor=lightgreen];
 
-    # Custom Domain
-    domain [label="Custom Domain\nwww.auemeribetech.com.ng", color=lightcyan];
+    dev -> github;
+    github -> actions;
+    actions -> build;
+    build -> artifact;
+    artifact -> staging;
+    staging -> production;
+    production -> dns;
+    dns -> domain;
+    domain -> user;
 
-    # User
-    user [label="🌍 End User (Browser)", shape=oval, color=lightgreen];
-
-    # Flow
-    dev -> github [label="git push"];
-    github -> actions [label="Trigger Workflow"];
-    actions -> build [label="Build Job"];
-    build -> artifact [label="Package App"];
-    artifact -> staging [label="Deploy"];
-    staging -> production [label="Slot Swap\n(Zero Downtime)"];
-
-    production -> dns [label="App Binding"];
-    dns -> domain [label="CNAME + TXT"];
-    domain -> user [label="HTTPS Request"];
-
-    # Azure grouping
     subgraph cluster_azure {
         label="Microsoft Azure";
         style=dashed;
-
         staging;
         production;
         dns;
     }
 
-    # CI/CD grouping
     subgraph cluster_github {
-        label="GitHub";
+        label="GitHub CI/CD";
         style=dashed;
-
         github;
         actions;
         build;
