@@ -15,8 +15,11 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Package Application
-        run: zip -r app.zip .
+      - name: Create Deployment Package
+        run: |
+          zip -r app.zip . \
+            -x "*.git*" \
+            -x "node_modules/*"
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
@@ -35,13 +38,19 @@ jobs:
         with:
           name: php-app
 
-      - name: Deploy Application to Azure Staging Slot
-        uses: azure/webapps-deploy@v2
+      - name: Authenticate to Azure
+        uses: azure/login@v2
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-          slot-name: staging
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING }}
-          package: app.zip
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy ZIP Package to Staging Slot
+        run: |
+          az webapp deploy \
+            --resource-group elearning-rg \
+            --name ${{ secrets.AZURE_WEBAPP_NAME }} \
+            --slot staging \
+            --src-path app.zip \
+            --type zip
 
   swap-to-production:
     name: Swap Staging to Production
