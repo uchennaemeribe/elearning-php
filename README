@@ -1,235 +1,147 @@
-# 🚀 End-to-End CI/CD Pipeline for PHP App on Azure  
-### *(Azure CLI + Azure DNS + GitHub Actions + Zero-Downtime Deployment)*
+Here’s your full professional, copy-ready README.md — clean, structured, and portfolio-grade. You can paste this directly into your README.md.
 
----
+⸻
 
-## 📌 Project Overview
+🚀 End-to-End CI/CD Pipeline for PHP App on Azure
 
-This project demonstrates a **production-ready CI/CD pipeline** for deploying a PHP web application using:
+(Azure CLI + Azure DNS + GitHub Actions + Zero-Downtime Deployment)
 
-- Azure App Service (Linux PaaS)
-- Azure DNS (Custom Domain Management)
-- GitHub Actions (CI/CD Automation)
-- Azure CLI (Infrastructure Provisioning)
+⸻
 
-The system enables **fully automated deployments**, **custom domain integration**, and **secure HTTPS access** with **zero downtime**.
+📌 Project Overview
 
----
+This project demonstrates a production-ready CI/CD pipeline for deploying a PHP web application using:
 
-## 🧭 Real-World Scenario
+* Azure App Service (Linux PaaS)
+* Azure DNS (Custom Domain Management)
+* GitHub Actions (CI/CD Automation)
+* Azure CLI (Infrastructure Provisioning)
 
-At **Your Techie Hub**, deployments were:
+The system enables fully automated deployments, custom domain integration, and secure HTTPS access with zero downtime.
 
-- ❌ Manual  
-- ❌ Slow  
-- ❌ Error-prone  
+⸻
+
+🧭 Real-World Scenario
+
+At Your Techie Hub, deployments were:
+
+* ❌ Manual
+* ❌ Slow
+* ❌ Error-prone
 
 The business required:
 
-- ⚡ Automatic deployment on every push  
-- 🌍 Custom domain (www.auemeribetech.com.ng)  
-- 🔒 HTTPS security  
-- 💰 No server management  
+* ⚡ Automatic deployment on every push
+* 🌍 Custom domain (www.auemeribetech.com.ng)
+* 🔒 HTTPS security
+* 💰 No server management
 
-👉 This project solves these problems using **modern DevOps practices**.
+👉 This project solves these problems using modern DevOps practices.
 
----
+⸻
 
-## 🎯 Objectives
+🎯 Objectives
 
-- Deploy a PHP application on Azure App Service (Linux)
-- Automate deployments using GitHub Actions
-- Manage DNS using Azure DNS
-- Enable HTTPS with managed SSL
-- Achieve zero-downtime deployments using staging slots
+* Deploy a PHP application on Azure App Service (Linux)
+* Automate deployments using GitHub Actions
+* Manage DNS using Azure DNS
+* Enable HTTPS with managed SSL
+* Achieve zero-downtime deployments using staging slots
 
----
+⸻
 
-## 🏗️ Architecture
+🏗️ Architecture
+
 <p align="center">
-
   <img src="docs/architecture.png" width="700"/>
-
 </p>
 
----
+🔁 Flow Overview
 
-## 🧰 Technologies Used
+Developer → GitHub Repository → GitHub Actions (CI/CD) → Build & Package →
+Deploy to Staging → Slot Swap (Zero Downtime) → Production →
+Azure DNS → Custom Domain → End User (HTTPS)
 
-- Microsoft Azure App Service (Linux)
-- Azure DNS
-- GitHub Actions
-- Azure CLI
-- PHP
-- Git & GitHub
+⸻
 
----
+🧰 Technologies Used
 
-## 📁 Project Structure
+* Microsoft Azure App Service (Linux)
+* Azure DNS
+* GitHub Actions
+* Azure CLI
+* PHP
+* Git & GitHub
 
-```
-elearning-php/
+⸻
+
+📁 Project Structure
+
+elearning-php-ci-cd/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml
-│
-├── app/
-│   ├── index.php
-│   └── assets/
 │
 ├── docs/
 │   ├── architecture.dot
 │   └── architecture.png
 │
+├── css/
+├── img/
+├── js/
+├── lib/
+├── scss/
+│
+├── index.php
+├── about.php
+├── contact.php
+├── courses.php
+├── team.php
+├── testimonial.php
+│
 ├── .gitignore
 └── README.md
-```
 
----
+⸻
 
-## ⚙️ Deployment Workflow
+⚙️ CI/CD Workflow (Enterprise Pipeline)
 
-```
-Code Push →
-   Build →
-      Package →
-         Deploy to Staging →
-            Slot Swap →
-               Production (Zero Downtime)
-```
+📁 Location: .github/workflows/deploy.yml
 
----
+🔧 Workflow Stages
 
-## 🚀 Azure CLI Setup
+* 🏗️ Build & Package Application
+* 🚀 Deploy to Staging Slot
+* 🔁 Swap to Production (Zero Downtime)
 
-### 1️⃣ Create Resource Group
-```bash
-az group create --name elearning-rg --location westus3
-```
-
-### 2️⃣ Create App Service Plan (B1 Required)
-```bash
-az appservice plan create \
-  --name elearning-plan \
-  --resource-group elearning-rg \
-  --sku B1 \
-  --is-linux
-```
-
-### 3️⃣ Create Web App (PHP)
-```bash
-az webapp create \
-  --resource-group elearning-rg \
-  --plan elearning-plan \
-  --name elearning-app-12345 \
-  --runtime "PHP|8.2"
-```
-
-### 4️⃣ Create Staging Slot
-```bash
-az webapp deployment slot create \
-  --name elearning-app-12345 \
-  --resource-group elearning-rg \
-  --slot staging
-```
-
----
-
-## 🌐 Azure DNS Configuration
-
-### Create DNS Zone
-```bash
-az network dns zone create \
-  --resource-group elearning-rg \
-  --name auemeribetech.com.ng
-```
-
-### Add CNAME Record
-```bash
-az network dns record-set cname set-record \
-  --resource-group elearning-rg \
-  --zone-name auemeribetech.com.ng \
-  --record-set-name www \
-  --cname elearning-app-12345.azurewebsites.net
-```
-
-### Add TXT Record
-```bash
-az network dns record-set txt add-record \
-  --resource-group elearning-rg \
-  --zone-name auemeribetech.com.ng \
-  --record-set-name asuid.www \
-  --value "<verification-id>"
-```
-
-### Bind Custom Domain
-```bash
-az webapp config hostname add \
-  --webapp-name elearning-app-12345 \
-  --resource-group elearning-rg \
-  --hostname www.auemeribetech.com.ng
-```
-
----
-
-## 🔐 GitHub Secrets
-
-```bash
-gh secret set AZURE_WEBAPP_NAME --body "elearning-app-12345"
-gh secret set AZURE_WEBAPP_PUBLISH_PROFILE_PROD < prod-profile.xml
-gh secret set AZURE_WEBAPP_PUBLISH_PROFILE_STAGING < staging-profile.xml
-gh secret set AZURE_CREDENTIALS
-```
-
----
-
-## ⚙️ CI/CD Workflow (Enterprise Pipeline)
-
-📁 Location: `.github/workflows/deploy.yml`
-
-### 🔧 Workflow Stages:
-- 🏗️ Build & Package
-- 🚀 Deploy to Staging
-- 🔁 Swap to Production (Zero Downtime)
-
-```yaml
 name: Enterprise CI/CD - PHP App
-
 on:
   push:
     branches:
       - main
-
 jobs:
-
   build:
     name: 🏗️ Build & Package Application
     runs-on: ubuntu-latest
-
     steps:
     - name: 📥 Checkout Source Code
       uses: actions/checkout@v3
-
     - name: 📦 Package Application
       run: zip -r app.zip .
-
     - name: ⬆️ Upload Build Artifact
       uses: actions/upload-artifact@v3
       with:
         name: php-app
         path: app.zip
-
   deploy-staging:
     name: 🚀 Deploy to Staging Slot
     runs-on: ubuntu-latest
     needs: build
-
     steps:
     - name: 📥 Download Artifact
       uses: actions/download-artifact@v3
       with:
         name: php-app
-
     - name: 🚀 Deploy to Azure (Staging)
       uses: azure/webapps-deploy@v2
       with:
@@ -237,18 +149,15 @@ jobs:
         slot-name: staging
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_STAGING }}
         package: app.zip
-
   swap-to-production:
     name: 🔁 Swap Staging → Production
     runs-on: ubuntu-latest
     needs: deploy-staging
-
     steps:
     - name: 🔐 Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     - name: 🔁 Perform Slot Swap
       run: |
         az webapp deployment slot swap \
@@ -256,67 +165,145 @@ jobs:
           --resource-group elearning-rg \
           --slot staging \
           --target-slot production
-```
 
----
+⸻
 
-## 🌐 Live Application
+🚀 Azure CLI Setup
 
-```
-https://www.auemeribetech.com.ng
-```
+1️⃣ Create Resource Group
 
-✔ Custom domain  
-✔ HTTPS enabled  
-✔ Automated deployment  
+az group create --name elearning-rg --location westus3
 
----
+2️⃣ Create App Service Plan
 
-## ❌ Common Issues & Fixes
+az appservice plan create \
+  --name elearning-plan \
+  --resource-group elearning-rg \
+  --sku B1 \
+  --is-linux
 
-| Issue | Solution |
-|------|--------|
-| Domain not resolving | Check CNAME & wait |
-| Cannot add domain | Upgrade to B1 |
-| HTTPS not working | Bind SSL |
-| CI/CD not triggering | Check GitHub Actions |
+3️⃣ Create Web App (PHP)
 
----
+az webapp create \
+  --resource-group elearning-rg \
+  --plan elearning-plan \
+  --name elearning-app-12345 \
+  --runtime "PHP|8.2"
 
-## 🧹 Cleanup
+4️⃣ Create Staging Slot
 
-```bash
+az webapp deployment slot create \
+  --name elearning-app-12345 \
+  --resource-group elearning-rg \
+  --slot staging
+
+⸻
+
+🌐 Azure DNS Configuration
+
+Create DNS Zone
+
+az network dns zone create \
+  --resource-group elearning-rg \
+  --name auemeribetech.com.ng
+
+Add CNAME Record
+
+az network dns record-set cname set-record \
+  --resource-group elearning-rg \
+  --zone-name auemeribetech.com.ng \
+  --record-set-name www \
+  --cname elearning-app-12345.azurewebsites.net
+
+Add TXT Record
+
+az network dns record-set txt add-record \
+  --resource-group elearning-rg \
+  --zone-name auemeribetech.com.ng \
+  --record-set-name asuid.www \
+  --value "<verification-id>"
+
+Bind Custom Domain
+
+az webapp config hostname add \
+  --webapp-name elearning-app-12345 \
+  --resource-group elearning-rg \
+  --hostname www.auemeribetech.com.ng
+
+⸻
+
+🔐 GitHub Secrets
+
+gh secret set AZURE_WEBAPP_NAME --body "elearning-app-12345"
+gh secret set AZURE_WEBAPP_PUBLISH_PROFILE_PROD < prod-profile.xml
+gh secret set AZURE_WEBAPP_PUBLISH_PROFILE_STAGING < staging-profile.xml
+gh secret set AZURE_CREDENTIALS
+
+⸻
+
+🌐 Live Application
+
+👉 https://www.auemeribetech.com.ng
+
+✔ Custom domain
+✔ HTTPS enabled
+✔ Automated deployment
+
+⸻
+
+❌ Common Issues & Fixes
+
+Issue	Solution
+Domain not resolving	Check DNS records & wait
+Cannot add domain	Upgrade App Service Plan
+HTTPS not working	Bind SSL certificate
+CI/CD not triggering	Check GitHub Actions logs
+
+⸻
+
+🧹 Cleanup
+
 az group delete --name elearning-rg --yes --no-wait
-```
 
----
+⸻
 
-## 🧠 Key DevOps Learnings
+🧠 Key DevOps Learnings
 
-- CI/CD eliminates manual errors  
-- PaaS simplifies infrastructure  
-- Azure DNS enables automation  
-- Deployment slots ensure zero downtime  
-- Automation is critical for scalability  
+* CI/CD eliminates manual deployment errors
+* PaaS reduces infrastructure complexity
+* Azure DNS simplifies domain management
+* Deployment slots enable zero downtime
+* Automation is essential for scalability
 
----
+⸻
 
-## 🏁 Final Outcome
+🏁 Final Outcome
 
-✔ Fully automated CI/CD  
-✔ Zero downtime deployment  
-✔ Secure HTTPS  
-✔ Production-ready architecture  
+✔ Fully automated CI/CD
+✔ Zero downtime deployment
+✔ Secure HTTPS
+✔ Production-ready architecture
 
----
+⸻
 
-## 👤 Author
+👤 Author
 
-**Anthony Uchenna Emeribe**  
-Cloud / DevOps Engineer  
+Anthony Uchenna Emeribe
+Cloud / DevOps Engineer
 
----
+⸻
 
-## ⭐ Support
+⭐ Support
 
-If you found this helpful, consider giving it a ⭐ on GitHub.
+If you found this helpful, consider giving it a
+
+n GitHub.
+:::
+
+⸻
+
+If you want next, I can help you:
+
+* Add badges (CI status, Azure, GitHub Actions)
+* Make this Top 1% portfolio README
+* Or prepare it for LinkedIn / Medium publication
