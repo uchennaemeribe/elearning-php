@@ -8,7 +8,7 @@ on:
 jobs:
 
   build:
-    name: Build & Package Application
+    name: Build and Package Application
     runs-on: ubuntu-latest
 
     steps:
@@ -30,12 +30,12 @@ jobs:
     needs: build
 
     steps:
-      - name: Download Artifact
+      - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
           name: php-app
 
-      - name: Deploy to Staging Slot
+      - name: Deploy Application to Azure Staging Slot
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
@@ -49,12 +49,12 @@ jobs:
     needs: deploy-staging
 
     steps:
-      - name: Azure Login
-        uses: azure/login@v1
+      - name: Authenticate to Azure
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Swap Staging to Production
+      - name: Perform Zero-Downtime Slot Swap
         run: |
           az webapp deployment slot swap \
             --name ${{ secrets.AZURE_WEBAPP_NAME }} \
